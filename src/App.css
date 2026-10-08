@@ -1,0 +1,133 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  border-bottom: 1px solid #ddd;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 24px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.view-navigation {
+  display: flex;
+  gap: 8px;
+}
+
+.view-navigation button {
+  border: none;
+  background: transparent;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.view-navigation button:hover {
+  background: #f0f0f0;
+}
+
+.view-navigation button.active {
+  background: #111;
+  color: white;
+}
+
+.app-body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 220px 1fr 240px;
+  min-height: 0;
+}
+
+.sidebar {
+  padding: 24px 16px;
+  border-right: 1px solid #ddd;
+}
+
+.sidebar-section {
+  margin-bottom: 28px;
+}
+
+.sidebar h2 {
+  margin: 0;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.sidebar h3 {
+  margin: 0 0 10px;
+  font-size: 12px;
+  color: #777;
+  letter-spacing: 1px;
+}
+
+.sidebar-item {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 4px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.sidebar-item:hover {
+  background: #f0f0f0;
+}
+
+.main-content {
+  padding: 32px;
+  overflow: auto;
+}
+
+.view h1 {
+  margin-top: 0;
+  margin-bottom: 32px;
+  font-size: 32px;
+}
+
+.task-section,
+.schedule-section {
+  padding: 24px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+}
+
+.task-section h2,
+.schedule-section h2 {
+  margin-top: 0;
+}
+
+.stats-panel {
+  padding: 24px 16px;
+  border-left: 1px solid #ddd;
+}
+
+.stats-panel h2 {
+  margin-top: 0;
+}
+
+.stats-placeholder {
+  margin-top: 24px;
+  padding: 24px 12px;
+  border: 1px dashed #bbb;
+  border-radius: 12px;
+  text-align: center;
+  color: #777;
+}
