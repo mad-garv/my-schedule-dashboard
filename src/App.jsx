@@ -394,8 +394,25 @@ const App = () => {
         />
       )
     }
-    
-    if (currentView === "month") return <Month />
+
+    if (currentView === "month") {
+  return (
+    <Month
+      date={selectedDate}
+      tasks={tasks}
+      schedules={schedules}
+      lists={lists}
+      onDateChange={setSelectedDate}
+      onOpenDay={(date) => {
+        setSelectedDate(date)
+        setCurrentView("today")
+      }}
+      onGoToToday={() => {
+        setSelectedDate(getLocalDateString())
+      }}
+    />
+  )
+}
 
     return (
       <Today

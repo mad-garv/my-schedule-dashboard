@@ -1049,3 +1049,251 @@
     font-size: 11px;
   }
 }
+
+
+.month-view {
+  max-width: 1400px;
+  margin: 0 auto;
+  min-width: 0;
+}
+
+.month-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.month-eyebrow {
+  margin: 0 0 8px;
+  color: #777;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.month-header h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.month-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.month-controls button {
+  padding: 9px 13px;
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  background: white;
+  color: #222;
+  cursor: pointer;
+}
+
+.month-controls button:hover {
+  background: #f3f3f3;
+}
+
+.month-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  border-top: 1px solid #e5e5e5;
+  border-left: 1px solid #e5e5e5;
+}
+
+.month-weekday {
+  padding: 10px 4px;
+  border-right: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
+  background: #fafafa;
+  color: #777;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.month-day {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 130px;
+  padding: 6px;
+  border-right: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
+  background: white;
+}
+
+.month-day-outside {
+  background: #fafafa;
+}
+
+.month-day-outside .month-day-number {
+  color: #aaa;
+}
+
+.month-day-today {
+  background: #f5f7fb;
+}
+
+.month-day-number {
+  align-self: flex-start;
+  display: grid;
+  place-items: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 5px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: #222;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.month-day-number:hover {
+  background: #eee;
+}
+
+.month-day-today .month-day-number {
+  background: #222;
+  color: white;
+}
+
+.month-day-events {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+  margin-top: 4px;
+  min-width: 0;
+}
+
+.month-event {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  width: 100%;
+  min-width: 0;
+  padding: 4px 5px;
+  border: none;
+  border-radius: 4px;
+  background: #edf1f7;
+  color: #26344a;
+  text-align: left;
+  cursor: pointer;
+}
+
+.month-event:hover {
+  background: #dfe7f3;
+}
+
+.month-event-time {
+  flex-shrink: 0;
+  font-size: 9px;
+}
+
+.month-event-title {
+  overflow: hidden;
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.month-event-completed .month-event-title {
+  color: #888;
+  text-decoration: line-through;
+}
+
+.month-more-events {
+  align-self: flex-start;
+  padding: 3px 4px;
+  border: none;
+  background: transparent;
+  color: #666;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.month-more-events:hover {
+  text-decoration: underline;
+}
+
+.month-open-day {
+  align-self: flex-start;
+  margin-top: auto;
+  padding: 5px 2px 0;
+  border: none;
+  background: transparent;
+  color: #888;
+  font-size: 10px;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.month-day:hover .month-open-day,
+.month-open-day:focus-visible {
+  opacity: 1;
+}
+
+@media (max-width: 900px) {
+  .month-day {
+    min-height: 105px;
+    padding: 4px;
+  }
+
+  .month-event {
+    padding: 4px 3px;
+  }
+
+  .month-event-time {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .month-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .month-grid {
+    gap: 0;
+  }
+
+  .month-weekday {
+    padding: 8px 1px;
+    font-size: 9px;
+  }
+
+  .month-day {
+    min-height: 78px;
+    padding: 2px;
+  }
+
+  .month-day-number {
+    min-width: 23px;
+    height: 23px;
+    padding: 0;
+    font-size: 11px;
+  }
+
+  .month-day-events {
+    gap: 2px;
+  }
+
+  .month-event {
+    padding: 3px 2px;
+  }
+
+  .month-event-title {
+    font-size: 9px;
+  }
+
+  .month-open-day {
+    display: none;
+  }
+}
