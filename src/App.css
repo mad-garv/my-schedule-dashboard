@@ -379,3 +379,29 @@
     padding: 12px;
   }
 }
+
+
+.task-list-select {
+  max-width: 125px;
+  min-width: 85px;
+  padding: 6px 7px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.task-list-select:focus {
+  outline: 2px solid #888;
+  outline-offset: 2px;
+}
+
+@media (max-width: 600px) {
+  .task-list-select {
+    max-width: 100px;
+    min-width: 75px;
+  }
+}

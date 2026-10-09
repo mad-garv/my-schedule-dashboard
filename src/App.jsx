@@ -183,7 +183,7 @@ const App = () => {
     )
   }
 
-  const moveTask = (taskId, direction) => {
+  const reorderTask = (taskId, direction) => {
     setTasks((currentTasks) => {
       const task = currentTasks.find((item) => item.id === taskId)
       if (!task) return currentTasks
@@ -221,6 +221,27 @@ const App = () => {
     })
   }
 
+  const moveTaskToList = (taskId, destinationListId) => {
+    // Allow Inbox (null) or an existing list.
+    if (
+      destinationListId !== null &&
+      !lists.some((list) => list.id === destinationListId)
+    ) {
+      return
+    }
+
+    setTasks((currentTasks) =>
+      currentTasks.map((task) =>
+        task.id === taskId
+          ? {
+            ...task,
+            listId: destinationListId,
+          }
+          : task
+      )
+    )
+  }
+
   // Determine which content belongs in the main area.
   const renderMainContent = () => {
     if (currentView === "inbox") {
@@ -228,11 +249,13 @@ const App = () => {
         <TaskList
           title="Inbox"
           tasks={tasks.filter((task) => task.listId === null)}
+          lists={lists}
           onAddTask={(title) => createTask(title, null)}
           onToggleTask={toggleTask}
           onRenameTask={renameTask}
           onDeleteTask={deleteTask}
-          onMoveTask={moveTask}
+          onMoveTask={moveTaskToList}
+          onReorderTask={reorderTask}
         />
       )
     }
@@ -252,11 +275,13 @@ const App = () => {
           tasks={tasks.filter(
             (task) => task.listId === selectedList.id
           )}
+          lists={lists}
           onAddTask={(title) => createTask(title, selectedList.id)}
           onToggleTask={toggleTask}
           onRenameTask={renameTask}
           onDeleteTask={deleteTask}
-          onMoveTask={moveTask}
+          onMoveTask={moveTaskToList}
+          onReorderTask={reorderTask}
         />
       )
     }
