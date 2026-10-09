@@ -405,3 +405,257 @@
     min-width: 75px;
   }
 }
+
+
+.today-view {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.today-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.today-eyebrow {
+  margin: 0 0 8px;
+  color: #777;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.today-header h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.today-date {
+  margin: 8px 0 0;
+  color: #777;
+  font-size: 14px;
+}
+
+.today-date-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.today-date-controls button,
+.today-schedule-form button {
+  padding: 9px 13px;
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  background: white;
+  color: #222;
+  cursor: pointer;
+}
+
+.today-date-controls button:hover {
+  background: #f3f3f3;
+}
+
+.today-schedule-section,
+.today-add-section {
+  margin-bottom: 28px;
+  padding: 20px;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+}
+
+.today-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.today-section-heading h2,
+.today-add-section h2 {
+  margin: 0;
+  font-size: 17px;
+}
+
+.today-section-heading > span {
+  display: grid;
+  place-items: center;
+  min-width: 26px;
+  height: 26px;
+  padding: 0 7px;
+  border-radius: 20px;
+  background: #eee;
+  font-size: 12px;
+}
+
+.today-empty {
+  padding: 20px 0;
+  color: #777;
+  font-size: 14px;
+}
+
+.today-task-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.today-task {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.today-task:last-child {
+  border-bottom: none;
+}
+
+.today-task > input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+}
+
+.today-task-details {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.today-task-title {
+  overflow-wrap: anywhere;
+  font-size: 14px;
+}
+
+.today-task-title.completed {
+  color: #999;
+  text-decoration: line-through;
+}
+
+.today-task-meta {
+  color: #777;
+  font-size: 12px;
+}
+
+.today-reschedule {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: #777;
+  font-size: 11px;
+}
+
+.today-reschedule input,
+.today-schedule-form input,
+.today-schedule-form select {
+  min-width: 0;
+  padding: 9px;
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  background: white;
+  color: #222;
+  font: inherit;
+  font-size: 13px;
+}
+
+.today-unschedule-button {
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #777;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.today-unschedule-button:hover {
+  background: #eee;
+  color: #111;
+}
+
+.today-add-section > p {
+  color: #777;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.today-schedule-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.today-schedule-form > label,
+.today-time-fields label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.today-schedule-form > label {
+  width: 100%;
+}
+
+.today-schedule-form select {
+  width: 100%;
+}
+
+.today-time-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.today-schedule-form button {
+  border-color: #111;
+  background: #111;
+  color: white;
+}
+
+.today-schedule-form button:hover {
+  background: #333;
+}
+
+.today-form-error {
+  margin: 0;
+  color: #b42318 !important;
+}
+
+@media (max-width: 600px) {
+  .today-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .today-schedule-section,
+  .today-add-section {
+    padding: 14px;
+  }
+
+  .today-task {
+    flex-wrap: wrap;
+  }
+
+  .today-task-details {
+    flex-basis: calc(100% - 45px);
+  }
+
+  .today-reschedule {
+    margin-left: 29px;
+  }
+
+  .today-reschedule input {
+    max-width: 155px;
+  }
+}
