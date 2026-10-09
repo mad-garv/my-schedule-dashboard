@@ -41,6 +41,10 @@ const App = () => {
 
   const [selectedListId, setSelectedListId] = useState(null)
 
+  const [schedules, setSchedules] = useState(() =>
+    readSavedData("scheduleEntries", [])
+  )
+
   // Persist lists and tasks whenever they change.
   useEffect(() => {
     localStorage.setItem("scheduleLists", JSON.stringify(lists))
@@ -49,6 +53,13 @@ const App = () => {
   useEffect(() => {
     localStorage.setItem("scheduleTasks", JSON.stringify(tasks))
   }, [tasks])
+
+  useEffect(() => {
+    localStorage.setItem(
+      "scheduleEntries",
+      JSON.stringify(schedules)
+    )
+  }, [schedules])
 
   // List management
   const createList = () => {
@@ -181,6 +192,11 @@ const App = () => {
     setTasks((currentTasks) =>
       currentTasks.filter((item) => item.id !== task.id)
     )
+    setSchedules((currentSchedules) =>
+      currentSchedules.filter(
+        (schedule) => schedule.taskId !== task.id
+      )
+    )
   }
 
   const reorderTask = (taskId, direction) => {
@@ -238,6 +254,67 @@ const App = () => {
             listId: destinationListId,
           }
           : task
+      )
+    )
+  }
+
+  const scheduleTask = (
+    taskId,
+    date,
+    startTime = "",
+    endTime = ""
+  ) => {
+    // The task must exist before it can be scheduled.
+    const taskExists = tasks.some(
+      (task) => task.id === taskId
+    )
+  
+    if (!taskExists) return
+  
+    // A date is required.
+    if (!date) return
+  
+    // If both times exist, the end must be after the start.
+    if (startTime && endTime && endTime <= startTime) {
+      return
+    }
+  
+    setSchedules((currentSchedules) => {
+      const existingSchedule = currentSchedules.find(
+        (schedule) => schedule.taskId === taskId
+      )
+  
+      // Reschedule an existing task instead of duplicating it.
+      if (existingSchedule) {
+        return currentSchedules.map((schedule) =>
+          schedule.taskId === taskId
+            ? {
+                ...schedule,
+                date,
+                startTime,
+                endTime,
+              }
+            : schedule
+        )
+      }
+  
+      // Otherwise, create a new schedule.
+      const newSchedule = {
+        id: crypto.randomUUID(),
+        taskId,
+        date,
+        startTime,
+        endTime,
+      }
+  
+      return [...currentSchedules, newSchedule]
+    })
+  }
+  
+  const unscheduleTask = (taskId) => {
+    setSchedules((currentSchedules) =>
+      currentSchedules.filter(
+        (schedule) => schedule.taskId !== taskId
       )
     )
   }
