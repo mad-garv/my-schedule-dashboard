@@ -1,16 +1,7 @@
 
 import { useState } from "react"
-
-const formatDate = (dateString) => {
-  const date = new Date(`${dateString}T12:00:00`)
-
-  return new Intl.DateTimeFormat(undefined, {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  }).format(date)
-}
+import DayTimeline from "../components/DayTimeline"
+import { formatDayHeading } from "../utils/scheduleUtils"
 
 const changeDate = (dateString, amount) => {
   const date = new Date(`${dateString}T12:00:00`)
@@ -108,8 +99,8 @@ const Today = ({
       <div className="today-header">
         <div>
           <p className="today-eyebrow">DAILY AGENDA</p>
-          <h1>{date === getTodayString() ? "Today" : formatDate(date)}</h1>
-          <p className="today-date">{formatDate(date)}</p>
+          <h1>{date === getTodayString() ? "Today" : formatDayHeading(date)}</h1>
+          <p className="today-date">{formatDayHeading(date)}</p>
         </div>
 
         <div className="today-date-controls">
@@ -135,86 +126,12 @@ const Today = ({
         </div>
       </div>
 
-      <section className="today-schedule-section">
-        <div className="today-section-heading">
-          <h2>Scheduled tasks</h2>
-          <span>{scheduledItems.length}</span>
-        </div>
-
-        {scheduledItems.length === 0 ? (
-          <p className="today-empty">
-            Nothing scheduled for this day yet.
-          </p>
-        ) : (
-          <ul className="today-task-list">
-            {scheduledItems.map(({ schedule, task }) => (
-              <li className="today-task" key={schedule.id}>
-                <input
-                  type="checkbox"
-                  checked={task.completed}
-                  onChange={() => onToggleTask(task.id)}
-                  aria-label={`Mark ${task.title} as ${
-                    task.completed ? "incomplete" : "complete"
-                  }`}
-                />
-
-                <div className="today-task-details">
-                  <span
-                    className={
-                      task.completed
-                        ? "today-task-title completed"
-                        : "today-task-title"
-                    }
-                  >
-                    {task.title}
-                  </span>
-
-                  <span className="today-task-meta">
-                    {schedule.startTime
-                      ? schedule.startTime
-                      : "No start time"}
-                    {schedule.endTime
-                      ? ` – ${schedule.endTime}`
-                      : ""}
-                    {" · "}
-                    {getListName(task.listId)}
-                  </span>
-                </div>
-
-                <label className="today-reschedule">
-                  <span>Move to</span>
-                  <input
-                    type="date"
-                    value={schedule.date}
-                    aria-label={`Change date for ${task.title}`}
-                    onChange={(event) => {
-                      const newDate = event.target.value
-                      if (!newDate) return
-
-                      onScheduleTask(
-                        task.id,
-                        newDate,
-                        schedule.startTime,
-                        schedule.endTime
-                      )
-                    }}
-                  />
-                </label>
-
-                <button
-                  type="button"
-                  className="today-unschedule-button"
-                  onClick={() => onUnscheduleTask(task.id)}
-                  aria-label={`Unschedule ${task.title}`}
-                  title="Remove from schedule"
-                >
-                  ×
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
+      <DayTimeline
+        scheduledItems={scheduledItems}
+        onToggleTask={onToggleTask}
+        onUnscheduleTask={onUnscheduleTask}
+        getListName={getListName}
+      />
 
       <section className="today-add-section">
         <h2>Schedule a task</h2>

@@ -884,3 +884,168 @@
     min-height: 160px;
   }
 }
+
+
+.day-timeline-section {
+  margin-bottom: 28px;
+  padding: 20px;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  min-width: 0;
+}
+
+.day-untimed {
+  margin-bottom: 20px;
+  padding: 12px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+}
+
+.day-untimed h3 {
+  margin: 0 0 10px;
+  font-size: 13px;
+}
+
+.day-untimed-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  font-size: 12px;
+}
+
+.day-untimed-item label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.day-untimed-item label span {
+  overflow-wrap: anywhere;
+}
+
+.day-untimed-item > span {
+  color: #777;
+}
+
+.day-untimed-item button,
+.day-event-remove {
+  border: none;
+  background: transparent;
+  color: #777;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.day-timeline {
+  display: grid;
+  grid-template-columns: 66px minmax(0, 1fr);
+  min-width: 0;
+}
+
+.day-hour-labels {
+  display: flex;
+  flex-direction: column;
+}
+
+.day-hour-label {
+  height: 60px;
+  padding: 0 8px 0 0;
+  border-top: 1px solid transparent;
+  color: #777;
+  font-size: 11px;
+  text-align: right;
+  transform: translateY(-7px);
+}
+
+.day-timeline-canvas {
+  position: relative;
+  height: 1440px;
+  min-width: 0;
+  border-left: 1px solid #ddd;
+  background: #fff;
+}
+
+.day-hour-line {
+  position: absolute;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: #eee;
+  pointer-events: none;
+}
+
+.day-timeline-event {
+  position: absolute;
+  z-index: 1;
+  box-sizing: border-box;
+  overflow: hidden;
+  padding: 7px 22px 7px 8px;
+  border: 1px solid #c8d7f0;
+  border-left: 3px solid #597db8;
+  border-radius: 5px;
+  background: #edf3fc;
+  color: #202c3c;
+  font-size: 12px;
+}
+
+.day-event-title {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.day-event-title input {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.day-event-time,
+.day-event-list {
+  display: block;
+  margin-top: 5px;
+  color: #596579;
+  font-size: 10px;
+  overflow-wrap: anywhere;
+}
+
+.day-event-remove {
+  position: absolute;
+  top: 2px;
+  right: 3px;
+}
+
+.day-task-completed {
+  color: #888;
+  text-decoration: line-through;
+}
+
+.day-timeline-event.day-task-completed {
+  border-color: #ddd;
+  border-left-color: #aaa;
+  background: #f1f1f1;
+}
+
+@media (max-width: 600px) {
+  .day-timeline-section {
+    padding: 12px;
+  }
+
+  .day-timeline {
+    grid-template-columns: 48px minmax(0, 1fr);
+  }
+
+  .day-hour-label {
+    padding-right: 5px;
+    font-size: 10px;
+  }
+
+  .day-timeline-event {
+    padding-left: 5px;
+    font-size: 11px;
+  }
+}
