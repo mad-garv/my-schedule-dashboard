@@ -2,6 +2,7 @@
 import { useState } from "react"
 import DayTimeline from "../components/DayTimeline"
 import { formatDayHeading } from "../utils/scheduleUtils"
+import UnassignedTasks from "../components/unassignedTasks"
 
 const changeDate = (dateString, amount) => {
   const date = new Date(`${dateString}T12:00:00`)
@@ -33,6 +34,7 @@ const Today = ({
   onScheduleTask,
   onUnscheduleTask,
   onToggleTask,
+  unassignedTasks,
 }) => {
   const [selectedTaskId, setSelectedTaskId] = useState("")
   const [startTime, setStartTime] = useState("")
@@ -55,6 +57,10 @@ const Today = ({
 
   const availableTasks = tasks.filter(
     (task) => !task.completed
+  )
+
+  const allDayItems = scheduledItems.filter(
+    (item) => !item.schedule.startTime
   )
 
   const handleSchedule = (event) => {
@@ -96,14 +102,18 @@ const Today = ({
 
   return (
     <div className="view today-view">
-      <div className="today-header">
-        <div>
-          <p className="today-eyebrow">DAILY AGENDA</p>
-          <h1>{date === getTodayString() ? "Today" : formatDayHeading(date)}</h1>
-          <p className="today-date">{formatDayHeading(date)}</p>
+
+      <div className="calendar-view-header">
+        <div className="calendar-heading">
+
+          <h1>
+            {date === getTodayString()
+              ? "TODAY"
+              : formatDayHeading(date)}
+          </h1>
         </div>
 
-        <div className="today-date-controls">
+        <div className="calendar-controls">
           <button
             type="button"
             onClick={() => onDateChange(changeDate(date, -1))}
@@ -111,11 +121,9 @@ const Today = ({
           >
             ←
           </button>
-
           <button type="button" onClick={onGoToToday}>
             Today
           </button>
-
           <button
             type="button"
             onClick={() => onDateChange(changeDate(date, 1))}
@@ -125,6 +133,12 @@ const Today = ({
           </button>
         </div>
       </div>
+
+      <UnassignedTasks
+        tasks={allDayItems.map((item) => item.task)}
+        lists={lists}
+        onToggleTask={onToggleTask}
+      />
 
       <DayTimeline
         scheduledItems={scheduledItems}

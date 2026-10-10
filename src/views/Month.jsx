@@ -7,6 +7,8 @@ import {
   parseLocalDate,
 } from "../utils/scheduleUtils"
 
+import UnassignedTasks from "../components/unassignedTasks"
+
 const getMonthDates = (monthDate) => {
   const firstOfMonth = parseLocalDate(getMonthStart(monthDate))
   const firstWeekday = (firstOfMonth.getDay() + 6) % 7
@@ -41,6 +43,9 @@ const Month = ({
   onDateChange,
   onOpenDay,
   onGoToToday,
+  unassignedTasks,
+  onScheduleTask,
+  onToggleTask,
 }) => {
   const monthStart = getMonthStart(date)
   const monthDates = getMonthDates(monthStart)
@@ -74,13 +79,14 @@ const Month = ({
 
   return (
     <div className="view month-view">
-      <header className="month-header">
-        <div>
-          <p className="month-eyebrow">MONTHLY OVERVIEW</p>
+
+      <header className="calendar-view-header">
+        <div className="calendar-heading">
+          <p className="view-eyebrow">MONTHLY OVERVIEW</p>
           <h1>{formatMonthYear(monthStart)}</h1>
         </div>
 
-        <div className="month-controls">
+        <div className="calendar-controls">
           <button
             type="button"
             onClick={() => onDateChange(addMonths(monthStart, -1))}
@@ -88,11 +94,9 @@ const Month = ({
           >
             ←
           </button>
-
           <button type="button" onClick={onGoToToday}>
             This month
           </button>
-
           <button
             type="button"
             onClick={() => onDateChange(addMonths(monthStart, 1))}
@@ -102,6 +106,14 @@ const Month = ({
           </button>
         </div>
       </header>
+
+      <UnassignedTasks
+        tasks={unassignedTasks}
+        lists={lists}
+        date={date}
+        onScheduleTask={onScheduleTask}
+        onToggleTask={onToggleTask}
+      />
 
       <div className="month-grid">
         {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(
@@ -141,9 +153,8 @@ const Month = ({
                   <button
                     type="button"
                     key={schedule.id}
-                    className={`month-event ${
-                      task.completed ? "month-event-completed" : ""
-                    }`}
+                    className={`month-event ${task.completed ? "month-event-completed" : ""
+                      }`}
                     title={`${task.title} · ${getListName(task.listId)}`}
                     onClick={() => onOpenDay(day)}
                   >

@@ -1,3 +1,4 @@
+
 * {
   box-sizing: border-box;
 }
@@ -5,16 +6,37 @@
 html,
 body,
 #root {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
   margin: 0;
-  min-height: 100%;
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
-  background: #fafafa;
-  color: #111;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
 }
 
 button {
-  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--accent-soft);
 }

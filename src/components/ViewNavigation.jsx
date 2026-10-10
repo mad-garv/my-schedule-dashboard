@@ -1,28 +1,28 @@
+
 const ViewNavigation = ({ currentView, onViewChange }) => {
-    return (
-      <nav className="view-navigation">
+  const views = [
+    { id: "today", label: "Today", symbol: "◷" },
+    { id: "week", label: "Week", symbol: "▦" },
+    { id: "month", label: "Month", symbol: "▤" },
+  ]
+
+  return (
+    <nav className="view-navigation" aria-label="Calendar view">
+      {views.map((view) => (
         <button
-          className={currentView === "today" ? "active" : ""}
-          onClick={() => onViewChange("today")}
+          key={view.id}
+          type="button"
+          className={currentView === view.id ? "active" : ""}
+          onClick={() => onViewChange(view.id)}
         >
-          Today
+          <span className="view-navigation-symbol">
+            {view.symbol}
+          </span>
+          <span>{view.label}</span>
         </button>
-  
-        <button
-          className={currentView === "week" ? "active" : ""}
-          onClick={() => onViewChange("week")}
-        >
-          Week
-        </button>
-  
-        <button
-          className={currentView === "month" ? "active" : ""}
-          onClick={() => onViewChange("month")}
-        >
-          Month
-        </button>
-      </nav>
-    )
-  }
-  
-  export default ViewNavigation
+      ))}
+    </nav>
+  )
+}
+
+export default ViewNavigation

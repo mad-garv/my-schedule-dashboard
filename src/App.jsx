@@ -58,6 +58,14 @@ const App = () => {
     getLocalDateString
   )
 
+
+  const [theme, setTheme] = useState(() =>
+    readSavedData("scheduleTheme", "dark")
+  )
+
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
+  const [statsCollapsed, setStatsCollapsed] = useState(false)
+
   // Persist lists and tasks whenever they change.
   useEffect(() => {
     localStorage.setItem("scheduleLists", JSON.stringify(lists))
@@ -73,6 +81,11 @@ const App = () => {
       JSON.stringify(schedules)
     )
   }, [schedules])
+
+
+  useEffect(() => {
+    localStorage.setItem("scheduleTheme", JSON.stringify(theme))
+  }, [theme])
 
   // List management
   const createList = () => {
@@ -281,36 +294,36 @@ const App = () => {
     const taskExists = tasks.some(
       (task) => task.id === taskId
     )
-  
+
     if (!taskExists) return
-  
+
     // A date is required.
     if (!date) return
-  
+
     // If both times exist, the end must be after the start.
     if (startTime && endTime && endTime <= startTime) {
       return
     }
-  
+
     setSchedules((currentSchedules) => {
       const existingSchedule = currentSchedules.find(
         (schedule) => schedule.taskId === taskId
       )
-  
+
       // Reschedule an existing task instead of duplicating it.
       if (existingSchedule) {
         return currentSchedules.map((schedule) =>
           schedule.taskId === taskId
             ? {
-                ...schedule,
-                date,
-                startTime,
-                endTime,
-              }
+              ...schedule,
+              date,
+              startTime,
+              endTime,
+            }
             : schedule
         )
       }
-  
+
       // Otherwise, create a new schedule.
       const newSchedule = {
         id: crypto.randomUUID(),
@@ -319,11 +332,11 @@ const App = () => {
         startTime,
         endTime,
       }
-  
+
       return [...currentSchedules, newSchedule]
     })
   }
-  
+
   const unscheduleTask = (taskId) => {
     setSchedules((currentSchedules) =>
       currentSchedules.filter(
@@ -391,73 +404,134 @@ const App = () => {
           onGoToToday={() => {
             setSelectedDate(getLocalDateString())
           }}
+
+          unassignedTasks={tasks.filter(
+            (task) =>
+              !task.completed &&
+              !schedules.some((schedule) => schedule.taskId === task.id)
+          )}
+          onScheduleTask={scheduleTask}
+          onToggleTask={toggleTask}
         />
       )
     }
 
     if (currentView === "month") {
-  return (
-    <Month
-      date={selectedDate}
-      tasks={tasks}
-      schedules={schedules}
-      lists={lists}
-      onDateChange={setSelectedDate}
-      onOpenDay={(date) => {
-        setSelectedDate(date)
-        setCurrentView("today")
-      }}
-      onGoToToday={() => {
-        setSelectedDate(getLocalDateString())
-      }}
-    />
-  )
-}
-
-    return (
-      <Today
+      return (
+        <Month
           date={selectedDate}
           tasks={tasks}
           schedules={schedules}
           lists={lists}
           onDateChange={setSelectedDate}
-          onGoToToday={() => setSelectedDate(getLocalDateString())}
+          onOpenDay={(date) => {
+            setSelectedDate(date)
+            setCurrentView("today")
+          }}
+          onGoToToday={() => {
+            setSelectedDate(getLocalDateString())
+          }}
+
+          unassignedTasks={tasks.filter(
+            (task) =>
+              !task.completed &&
+              !schedules.some((schedule) => schedule.taskId === task.id)
+          )}
           onScheduleTask={scheduleTask}
-          onUnscheduleTask={unscheduleTask}
           onToggleTask={toggleTask}
         />
+      )
+    }
+
+    return (
+      <Today
+        date={selectedDate}
+        tasks={tasks}
+        schedules={schedules}
+        lists={lists}
+        onDateChange={setSelectedDate}
+        onGoToToday={() => setSelectedDate(getLocalDateString())}
+        onScheduleTask={scheduleTask}
+        onUnscheduleTask={unscheduleTask}
+        onToggleTask={toggleTask}
+
+        unassignedTasks={tasks.filter(
+          (task) =>
+            !task.completed &&
+            !schedules.some((schedule) => schedule.taskId === task.id)
+        )}
+      />
     )
   }
 
+
   return (
-    <div className="app">
-      <header className="header">
-        <h1>My Schedule</h1>
+    <div className={`app theme-${theme}`}>
 
-        <ViewNavigation
-          currentView={currentView}
-          onViewChange={changeView}
-        />
-      </header>
-
-      <div className="app-body">
-        <Sidebar
-          lists={lists}
-          tasks={tasks}
-          currentView={currentView}
-          selectedListId={selectedListId}
-          onSelectInbox={selectInbox}
-          onSelectList={selectList}
-          onCreateList={createList}
-          onRenameList={renameList}
-          onDeleteList={deleteList}
-        />
+      <div
+        className={[
+          "app-body",
+          sidebarCollapsed && "sidebar-collapsed",
+          statsCollapsed && "stats-collapsed",
+        ]
+          .filter(Boolean)
+          .join(" ")}
+      >
+        {sidebarCollapsed ? (
+          <div className="collapsed-rail collapsed-rail-left">
+            <button
+              className="icon-button reopen-panel-button"
+              type="button"
+              onClick={() => setSidebarCollapsed(false)}
+              aria-label="Open sidebar"
+              title="Open sidebar"
+            >
+              ›
+            </button>
+          </div>
+        ) : (
+          <Sidebar
+            lists={lists}
+            tasks={tasks}
+            currentView={currentView}
+            selectedListId={selectedListId}
+            theme={theme}
+            onToggleTheme={() =>
+              setTheme((current) =>
+                current === "dark" ? "light" : "dark"
+              )
+            }
+            onCollapse={() => setSidebarCollapsed(true)}
+            onViewChange={changeView}
+            onSelectInbox={selectInbox}
+            onSelectList={selectList}
+            onCreateList={createList}
+            onRenameList={renameList}
+            onDeleteList={deleteList}
+          />
+        )}
 
         <main className="main-content">
           {renderMainContent()}
         </main>
 
-        <StatsPanel />
+        {statsCollapsed ? (
+          <div className="collapsed-rail collapsed-rail-right">
+            <button
+              className="icon-button reopen-panel-button"
+              type="button"
+              onClick={() => setStatsCollapsed(false)}
+              aria-label="Open statistics panel"
+              title="Open statistics panel"
+            >
+              ‹
+            </button>
+          </div>
+        ) : (
+          <StatsPanel
+            onCollapse={() => setStatsCollapsed(true)}
+          />
+        )}
       </div>
     </div>
   )

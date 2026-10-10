@@ -1,3 +1,4 @@
+import UnassignedTasks from "../components/unassignedTasks"
 
 const getDateString = (date) => {
   const year = date.getFullYear()
@@ -68,6 +69,9 @@ const Week = ({
   onDateChange,
   onOpenDay,
   onGoToToday,
+  unassignedTasks,
+  onScheduleTask,
+  onToggleTask,
 }) => {
   const weekStart = getWeekStart(date)
 
@@ -116,16 +120,14 @@ const Week = ({
 
   return (
     <div className="view week-view">
-      <header className="week-header">
-        <div>
-          <p className="week-eyebrow">WEEKLY AGENDA</p>
-          <h1>Week</h1>
-          <p className="week-date-range">
-            {formatWeekRange(weekStart, weekEnd)}
-          </p>
+
+      <header className="calendar-view-header">
+        <div className="calendar-heading">
+          <p className="view-eyebrow">WEEKLY AGENDA</p>
+          <h1>{formatWeekRange(weekStart, weekEnd)}</h1>
         </div>
 
-        <div className="week-controls">
+        <div className="calendar-controls">
           <button
             type="button"
             onClick={() => moveWeek(-1)}
@@ -133,11 +135,9 @@ const Week = ({
           >
             ←
           </button>
-
           <button type="button" onClick={onGoToToday}>
             This week
           </button>
-
           <button
             type="button"
             onClick={() => moveWeek(1)}
@@ -147,6 +147,14 @@ const Week = ({
           </button>
         </div>
       </header>
+
+      <UnassignedTasks
+        tasks={unassignedTasks}
+        lists={lists}
+        date={date}
+        onScheduleTask={onScheduleTask}
+        onToggleTask={onToggleTask}
+      />
 
       <div className="week-grid">
         {weekDates.map((day) => {
@@ -185,9 +193,8 @@ const Week = ({
                   dayTasks.map(({ schedule, task }) => (
                     <button
                       type="button"
-                      className={`week-task ${
-                        task.completed ? "week-task-completed" : ""
-                      }`}
+                      className={`week-task ${task.completed ? "week-task-completed" : ""
+                        }`}
                       key={schedule.id}
                       onClick={() => onOpenDay(day)}
                       title={`${task.title} · ${getListName(task.listId)}`}
